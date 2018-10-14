@@ -1,24 +1,62 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  state = {
+    contacts: [],
+    name: '',
+    email: '',
+  }
+
+  handleSubmit(event) {
+    event.preventDefault()
+    const { name, email } = this.state
+
+    const newValue = {
+      contacts: [
+        ...this.state.contacts,
+        {
+          name,
+          email,
+        }
+      ]
+    }
+    this.setState(newValue)
+    localStorage.setItem('contacts', JSON.stringify(newValue) )
+  }
+
+  componentDidMount() {
+    this.setState(JSON.parse(localStorage.getItem('contacts')))
+  }
+
   render() {
+    console.log(this.state.contacts)
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <form>
+            <input
+              placeholder='Name'
+              type="text"
+              value={this.state.name}
+              onChange={event => this.setState({ name: event.target.value })}
+            />
+            <input
+              placeholder='Email'
+              type="email"
+              value={this.state.email}
+              onChange={event => this.setState({ email: event.target.value })}
+            />
+            <button onClick={event => this.handleSubmit(event)}>Add</button>
+          </form>
+          <div>
+            <h2>Contacts:</h2>
+            <ul>
+              {this.state.contacts.map((item, index) => 
+                <li key={index}>{item.name} ({item.email})</li>
+              )}
+            </ul>
+          </div>
         </header>
       </div>
     );
