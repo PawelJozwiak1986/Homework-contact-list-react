@@ -34,7 +34,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <form>
+          <form className="App-form">
             <input
               placeholder='Name'
               type="text"
@@ -47,10 +47,10 @@ class App extends Component {
               value={this.state.email}
               onChange={event => this.setState({ email: event.target.value })}
             />
-            <button onClick={event => this.handleSubmit(event)}>Add</button>
+            <button className="App-button"onClick={event => this.handleSubmit(event)}>Add</button>
           </form>
           <div>
-            <h2>Contacts:</h2>
+            <h2 className="App-contacts">Contacts:</h2>
             <ul>
               {this.state.contacts.map((item, index) => 
                 <li key={index}>{item.name} ({item.email})</li>
